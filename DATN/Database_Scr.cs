@@ -24,6 +24,7 @@ namespace DATN
 
         private void btnSystem_Click(object sender, EventArgs e)
         {
+            
             Windows_colection.system_window.Show();
             this.Hide();
         }

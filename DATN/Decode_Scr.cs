@@ -17,8 +17,12 @@ namespace DATN
 {
     public partial class Decode_Scr : Form
     {
+        public static int something { get; set; }
         private FilterInfoCollection cameras;
         private VideoCaptureDevice cam;
+
+        public Dictionary<string, string> origin_dict = new Dictionary<string, string>();
+
         public Decode_Scr()
         {
             InitializeComponent();
@@ -27,6 +31,12 @@ namespace DATN
             {
                 cbbCamera.Items.Add(info.Name);
             }
+
+            origin_dict.Add("VN","Vietnam");
+            origin_dict.Add("TL", "Thailand");
+            origin_dict.Add("NB", "Japan");
+            origin_dict.Add("US","American");
+
         }
 
         private void Decode_Scr_Load(object sender, EventArgs e)
@@ -233,7 +243,19 @@ namespace DATN
 
                     int int_month = int.Parse(str_month);
                     int int_day = int.Parse(str_day);
-                    
+
+                    if (origin_dict.ContainsKey(str_origin))
+                    {
+                        str_origin = origin_dict[str_origin];
+                    }
+                    else
+                    {
+                        str_origin = "!!!";
+                        lbNotes_Origin.Text = "Unknow";
+                        i1 = true;
+                    }
+
+                    /*
                     switch(str_origin)
                     {
                         case "VN": str_origin = "Vietnam";
@@ -252,6 +274,7 @@ namespace DATN
                             }
                             break;
                     }
+                    */
 
                     switch (str_destination)
                     {
