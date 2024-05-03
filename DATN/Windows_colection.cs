@@ -18,6 +18,7 @@ namespace DATN
         public static Trend_Scr trend_window { get; set; }
 
 
+
         public static void InitializeWindows()
         {
             opcUA_window = new OpcUA_Scr();

@@ -12,7 +12,6 @@ using ZXing.QrCode;
 using AForge.Video;
 using AForge.Video.DirectShow;
 
-
 namespace DATN
 {
     public partial class Decode_Scr : Form
@@ -21,7 +20,11 @@ namespace DATN
         private FilterInfoCollection cameras;
         private VideoCaptureDevice cam;
 
-        public Dictionary<string, string> origin_dict = new Dictionary<string, string>();
+        private Dictionary<string, string> origin_dict = new Dictionary<string, string>();
+        private Dictionary<string, string> destination_dict = new Dictionary<string, string>();
+        private Dictionary<string, string> type_dict = new Dictionary<string, string>();
+
+        private string UNKNOW_CODE = "Unknow";
 
         public Decode_Scr()
         {
@@ -31,11 +34,25 @@ namespace DATN
             {
                 cbbCamera.Items.Add(info.Name);
             }
-
+            
+            //Khởi tạo các cặp giá trị cho origin_dict
             origin_dict.Add("VN","Vietnam");
             origin_dict.Add("TL", "Thailand");
             origin_dict.Add("NB", "Japan");
             origin_dict.Add("US","American");
+
+            //Khỏi tạo các cặp giá trị cho destination_dict
+            for (uint i = 1; i <=10; i++)
+            {
+                destination_dict.Add("0" + i.ToString(), i.ToString() + " Distric");
+            }
+
+            //Khởi tạo các cặp giá trị cho type_dict
+            for(uint i = 1; i< 10; i++)
+            {
+                type_dict.Add("L" + i.ToString(), "Type " + i.ToString());
+            }
+
 
         }
 
@@ -250,8 +267,8 @@ namespace DATN
                     }
                     else
                     {
-                        str_origin = "!!!";
-                        lbNotes_Origin.Text = "Unknow";
+                        str_origin = UNKNOW_CODE;
+                        lbNotes_Origin.Text = UNKNOW_CODE;
                         i1 = true;
                     }
 
@@ -276,6 +293,18 @@ namespace DATN
                     }
                     */
 
+                    if (destination_dict.ContainsKey(str_destination))
+                    {
+                        str_destination = destination_dict[str_destination];
+                    }
+                    else
+                    {
+                        str_destination = UNKNOW_CODE;
+                        lbNotes_Destination.Text = UNKNOW_CODE;
+                        i2 = true;
+                    }
+
+                    /*
                     switch (str_destination)
                     {
                         case "01":
@@ -301,7 +330,21 @@ namespace DATN
                             }
                             break;
                     }
+                    */
 
+                    if (type_dict.ContainsKey(str_type))
+                    {
+                        GlobalVariables.opcWriteType = Convert.ToByte( type_dict.Keys.ToList().IndexOf(str_type) );
+                        str_type = type_dict[str_type];
+                    }
+                    else
+                    {
+                        str_type = UNKNOW_CODE;
+                        lbNote_Type.Text = UNKNOW_CODE;
+                        i3 = true;
+                    }
+
+                    /*
                     switch (str_type)
                     {
                         case "L1":
@@ -324,6 +367,8 @@ namespace DATN
                             }
                             break;
                     }
+                    */
+
 
                     if(int_day>=1 && int_day<=31 && int_month>=1 && int_month<=12)
                     {
@@ -331,8 +376,8 @@ namespace DATN
                     }
                     else
                     {
-                        lbNotes_Date.Text = "Unknow";
-                        str_date = "!!!";
+                        lbNotes_Date.Text = UNKNOW_CODE;
+                        str_date = UNKNOW_CODE;
                         i4 = true;
                     }
                     txtInf_Origin.Text = str_origin.ToString();
@@ -360,6 +405,8 @@ namespace DATN
                     GlobalVariables.opcWriteType = 4;
                     return;
                 }
+                string newdata = "{\"origin\": \"" + str_origin + "\", \"destination\": "+str_destination+", \"type\": "+str_type+", \"time_packaged\": "+str_date+"}";
+                Database_Scr.InsertData(newdata, "products");
             }
             else
             {
@@ -375,6 +422,8 @@ namespace DATN
                 txtInf_Result.Text = null;
                 GlobalVariables.opcWriteType = 0;
             }
+
+
         }
     }
 }
