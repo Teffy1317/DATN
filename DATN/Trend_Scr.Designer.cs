@@ -66,6 +66,7 @@ namespace DATN
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.label17 = new System.Windows.Forms.Label();
             this.tTrendView = new System.Windows.Forms.Timer(this.components);
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picLogoHCMUT)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picHome)).BeginInit();
@@ -413,12 +414,22 @@ namespace DATN
             this.tTrendView.Interval = 30000;
             this.tTrendView.Tick += new System.EventHandler(this.tTrendView_Tick);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(797, 547);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(168, 55);
+            this.button1.TabIndex = 257;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
             // Trend_Scr
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.RoyalBlue;
             this.ClientSize = new System.Drawing.Size(1924, 1061);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.label17);
             this.Controls.Add(this.chart1);
             this.Controls.Add(this.picHome);
@@ -490,5 +501,6 @@ namespace DATN
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Timer tTrendView;
+        private System.Windows.Forms.Button button1;
     }
 }
